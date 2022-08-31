@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" v-if="modal.isOpen" @click="">
     <div class="edit__modal">
       <input type="text" class="title" placeholder="Title" />
       <textarea rows="3" class="content" placeholder="Take a note..." />
@@ -11,12 +11,16 @@
   </div>
 </template>
 <script setup>
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, inject } from "vue";
 import Delete from "./icons/delete.vue";
 
 function blockWheel(e) {
   e.preventDefault();
 }
+const modal = inject("isModalOpen");
+console.log(modal.value);
+modal.closeModal;
+console.log(modal.value);
 
 onMounted(() => {
   window.addEventListener("wheel", blockWheel, { passive: false });

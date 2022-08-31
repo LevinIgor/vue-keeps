@@ -1,12 +1,12 @@
 <template>
   <div class="keeps">
-    <div class="keep" v-for="keep in keeps">
+    <div class="keep" v-for="(keep, index) in keeps">
       <div class="keep__time__ago">{{ getAgo(keep.id) }}</div>
       <div class="keep__title">{{ keep.title }}</div>
       <p class="keep__content">
         {{ keep.content }}
       </p>
-      <editIcon class="keep__edit" />
+      <editIcon class="keep__edit" @click="edit(index)" />
     </div>
   </div>
 </template>
@@ -14,10 +14,15 @@
 import editIcon from "./icons/edit.vue";
 import { useTimeAgo } from "@vueuse/core";
 
+const props = defineProps(["keeps"]);
+const emits = defineEmits(["onEditKeep"]);
 function getAgo(time) {
   return useTimeAgo(time).value;
 }
-const props = defineProps(["keeps"]);
+
+function edit(id) {
+  emits("onEditKeep", id);
+}
 </script>
 <style scoped>
 .keeps {

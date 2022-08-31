@@ -1,16 +1,23 @@
 <template>
-  <div class="forms">
-    <input
-      type="text"
-      class="form__title"
-      placeholder="Title"
-      v-model="form.title"
-    />
+  <div class="forms" @click="showTitle()">
+    <transition name="fade">
+      <input
+        v-if="isTitleShow"
+        type="text"
+        class="form__title"
+        placeholder="Title"
+        v-model.trim="form.title"
+        :class="{ empty: isIncorrect.title }"
+        @click="isIncorrect.title = false"
+      />
+    </transition>
     <textarea
       rows="4"
       class="form__content"
       placeholder="Take a note..."
       v-model="form.content"
+      :class="{ empty: isIncorrect.content }"
+      @click="isIncorrect.content = false"
     ></textarea>
     <span @click="create()" class="form__btn" title="Create" />
   </div>
@@ -20,14 +27,39 @@ import { ref } from "vue";
 import setKeep from "@/firebase/setKeep.js";
 
 const emits = defineEmits(["onCreateKeep"]);
+const isTitleShow = ref(false);
+const isIncorrect = ref({ title: false, content: false });
 const form = ref({});
 
 async function create() {
-  form.value.id = Date.now();
-  setKeep(form.value).then(() => {
+  if (isValidate()) {
+    form.value.id = Date.now();
+
+    setKeep(form.value);
+
     emits("onCreateKeep", form.value);
+
     form.value = {};
-  });
+  }
+}
+
+function isValidate() {
+  form.value.title
+    ? (isIncorrect.value.title = false)
+    : (isIncorrect.value.title = true);
+
+  form.value.content
+    ? (isIncorrect.value.content = false)
+    : (isIncorrect.value.content = true);
+
+  if (isIncorrect.value.title || isIncorrect.value.content) {
+    return false;
+  } else {
+    return true;
+  }
+}
+function showTitle() {
+  isTitleShow.value = true;
 }
 </script>
 <style scoped>
@@ -41,6 +73,17 @@ async function create() {
   border-radius: 10px;
   background-color: white;
   box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+}
+input,
+textarea {
+  border: 2px solid transparent;
+  margin-top: 1px;
+}
+.empty {
+  border: 2px solid rgba(255, 63, 63, 0.219);
+}
+.empty::placeholder {
+  color: rgba(133, 9, 9, 0.463);
 }
 .form__btn {
   cursor: pointer;
@@ -70,5 +113,19 @@ async function create() {
   .forms {
     width: 100%;
   }
+}
+
+.fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
