@@ -14,6 +14,9 @@ import VKeeps from "./components/v-keeps.vue";
 <style scoped>
 main{
     padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 
