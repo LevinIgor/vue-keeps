@@ -1,8 +1,8 @@
 <template>
   <main>
     <VIcons />
-    <VInputForm />
-    <VKeeps />
+    <VInputForm @onCreateKeep="addKeep($event)" />
+    <VKeeps :keeps="keeps" />
     <VEditModal v-if="false" />
   </main>
 </template>
@@ -16,6 +16,10 @@ import { onMounted, ref } from "vue";
 import getKeeps from "@/firebase/getKeeps.js";
 
 const keeps = ref([]);
+
+function addKeep(keep) {
+  keeps.value.unshift(keep);
+}
 
 onMounted(async () => {
   keeps.value = await getKeeps();

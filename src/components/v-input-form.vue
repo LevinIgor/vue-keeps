@@ -12,13 +12,23 @@
       placeholder="Take a note..."
       v-model="form.content"
     ></textarea>
-    <span class="form__btn" title="Create" />
+    <span @click="create()" class="form__btn" title="Create" />
   </div>
 </template>
 <script setup>
 import { ref } from "vue";
+import setKeep from "@/firebase/setKeep.js";
 
+const emits = defineEmits(["onCreateKeep"]);
 const form = ref({});
+
+async function create() {
+  form.value.id = Date.now();
+  setKeep(form.value).then(() => {
+    emits("onCreateKeep", form.value);
+    form.value = {};
+  });
+}
 </script>
 <style scoped>
 .forms {

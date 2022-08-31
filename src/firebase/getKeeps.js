@@ -1,13 +1,11 @@
 import db from "@/firebase";
-import { query, collection, limit,getDocs } from "firebase/firestore";
+import { query, collection, limit, getDocs,orderBy } from "firebase/firestore";
 
-export default function getKeeps() {
-
+export default function () {
   return new Promise(async (resolve) => {
-
     let keeps = [];
 
-    const q = query(collection(db, "keeps"), limit(1));
+    const q = query(collection(db, "keeps"), limit(100),orderBy("id", "desc"));
 
     const querySnapshot = await getDocs(q);
 
