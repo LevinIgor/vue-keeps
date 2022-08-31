@@ -5,7 +5,7 @@ input,textarea{
     border: none;
     padding: 10px 5px;
     font-size: 15px;
-    resize: vertical;
+    resize: none;
 }
 #app{
     max-width: 1200px;
