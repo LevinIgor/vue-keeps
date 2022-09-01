@@ -9,6 +9,7 @@
         v-model.trim="form.title"
         :class="{ empty: isIncorrect.title }"
         @click="isIncorrect.title = false"
+        @keyup.enter="create()"
       />
     </transition>
     <textarea
@@ -18,6 +19,7 @@
       v-model.trim="form.content"
       :class="{ empty: isIncorrect.content }"
       @click="isIncorrect.content = false"
+      @keyup.enter="create()"
     ></textarea>
     <span @click="create()" class="form__btn" title="Create" />
   </div>
