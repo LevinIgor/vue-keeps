@@ -1,26 +1,19 @@
 <template>
-  <div class="container" @click.self="emits('close')">
-    <div class="edit__modal">
-      <input
-        type="text"
-        class="title"
-        placeholder="Title"
-        v-model="keep.title"
-      />
-      <textarea
-        rows="3"
-        class="content"
-        placeholder="Take a note..."
-        v-model="keep.content"
-      />
-      <footer>
-        <deleteIcon class="delete" @click="emits('delete', keep.id)" />
-        <section>
-          <span class="btn" @click="">Cancel</span>
-          <span class="btn" @click="save()">Done</span>
-        </section>
-      </footer>
-    </div>
+  <div class="modal">
+    <input type="text" class="title" placeholder="Title" v-model="keep.title" />
+    <textarea
+      rows="3"
+      class="content"
+      placeholder="Take a note..."
+      v-model="keep.content"
+    />
+    <footer>
+      <deleteIcon class="delete" @click="emits('delete', keep.id)" />
+      <section>
+        <span class="btn" @click="">Cancel</span>
+        <span class="btn" @click="save()">Done</span>
+      </section>
+    </footer>
   </div>
 </template>
 <script setup>
@@ -51,18 +44,12 @@ onUnmounted(() => {
 });
 </script>
 <style scoped>
-.container {
+.modal {
+  z-index: 20;
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(84, 84, 84, 0.502);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.edit__modal {
+  top: 50%;
+  margin: 0 auto;
+  transform: translate(0%, -50%);
   box-sizing: border-box;
   padding: 20px;
   width: 500px;
@@ -73,6 +60,7 @@ onUnmounted(() => {
   border: 1px solid #e6e6e6;
   box-shadow: 10px 20px 10px rgba(27, 27, 27, 0.368);
 }
+
 .title {
   font-size: 18px;
   font-weight: bold;
@@ -98,14 +86,14 @@ footer {
   border-radius: 5px;
   padding: 5px 10px;
   margin-top: 10px;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 .btn:hover {
   background-color: #e6e6e6;
 }
 
 @media (max-width: 600px) {
-  .edit__modal {
+  .modal {
     width: 90%;
   }
 }

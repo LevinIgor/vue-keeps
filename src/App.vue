@@ -1,15 +1,17 @@
 <template>
   <main>
+    <VFixedBg v-if="modal.isOpen" @onBgClick="modal.isOpen = false" />
     <VIcons />
     <VInputForm @onCreateKeep="addKeep($event)" />
     <VKeeps :keeps="keeps" @onEditKeep="editKeep($event)" />
-    <VEditModal
-      @close="modal.isOpen = false"
-      @delete="deleteKeep($event)"
-      @save="saveKeep($event)"
-      :modal="modal"
-      v-if="modal.isOpen"
-    />
+    <Transition name="nested">
+      <VEditModal
+        v-if="modal.isOpen"
+        @delete="deleteKeep($event)"
+        @save="saveKeep($event)"
+        :modal="modal"
+      />
+    </Transition>
   </main>
 </template>
 <script setup>
@@ -17,6 +19,7 @@ import VIcons from "./components/v-icons.vue";
 import VInputForm from "./components/v-input-form.vue";
 import VKeeps from "./components/v-keeps.vue";
 import VEditModal from "./components/v-edit-modal.vue";
+import VFixedBg from "./components/v-fixed-bg.vue";
 
 import { onMounted, ref } from "vue";
 import getKeeps from "@/firebase/getKeeps.js";
@@ -63,5 +66,16 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.nested-enter-active,
+.nested-leave-active {
+  transition: all 0.2s ease-in-out;
+}
+
+.nested-enter-from,
+.nested-leave-to {
+  transform: scale(0.1);
+  opacity: 0;
 }
 </style>
