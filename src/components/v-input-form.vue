@@ -15,7 +15,7 @@
     <textarea
       rows="4"
       class="form__content"
-      placeholder="Shift+Enter for go to next line"
+      placeholder="Shift+Enter to create new note"
       v-model.trim="form.content"
       :class="{ empty: isIncorrect.content }"
       @click="isIncorrect.content = false"
@@ -66,8 +66,6 @@ function showTitle() {
 
 function keyup(event) {
   if (event.keyCode === 13 && event.shiftKey) {
-    form.value.content = form.value.content + "\r\n";
-  } else if (event.keyCode === 13) {
     create();
   }
 }
