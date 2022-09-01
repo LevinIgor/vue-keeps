@@ -66,7 +66,7 @@ function showTitle() {
 
 function keyup(event) {
   if (event.keyCode === 13 && event.shiftKey) {
-    form.value.content = form.value.content + "\r\n\r\n";
+    form.value.content = form.value.content + "\r\n";
   } else if (event.keyCode === 13) {
     create();
   }
