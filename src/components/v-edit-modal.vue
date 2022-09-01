@@ -1,27 +1,48 @@
 <template>
-  <div class="container" v-if="modal.isOpen" @click="">
+  <div class="container" @click.self="emits('close')">
     <div class="edit__modal">
-      <input type="text" class="title" placeholder="Title" />
-      <textarea rows="3" class="content" placeholder="Take a note..." />
+      <input
+        type="text"
+        class="title"
+        placeholder="Title"
+        v-model="keep.title"
+      />
+      <textarea
+        rows="3"
+        class="content"
+        placeholder="Take a note..."
+        v-model="keep.content"
+      />
       <footer>
-        <Delete class="delete" />
-        <span class="btn">Done</span>
+        <deleteIcon class="delete" @click="emits('delete', keep.id)" />
+        <section>
+          <span class="btn" @click="">Cancel</span>
+          <span class="btn" @click="save()">Done</span>
+        </section>
       </footer>
     </div>
   </div>
 </template>
 <script setup>
-import { onMounted, onUnmounted, inject } from "vue";
-import Delete from "./icons/delete.vue";
+import { onMounted, onUnmounted, ref } from "vue";
+import deleteIcon from "./icons/delete.vue";
 
+const props = defineProps(["modal"]);
+const emits = defineEmits(["close", "save", "delete"]);
 function blockWheel(e) {
   e.preventDefault();
 }
-const modal = inject("isModalOpen");
-console.log(modal.value);
-modal.closeModal;
-console.log(modal.value);
+const keep = ref({
+  title: "",
+  content: "",
+  id: "",
+});
 
+keep.value = JSON.parse(JSON.stringify(props.modal.keep));
+
+function save() {
+  emits("save", keep.value);
+}
 onMounted(() => {
   window.addEventListener("wheel", blockWheel, { passive: false });
 });
