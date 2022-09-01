@@ -69,6 +69,11 @@ main {
   align-items: center;
 }
 
+@media (max-width: 400px) {
+  main {
+    padding: 10px;
+  }
+}
 
 .nested-enter-active,
 .nested-leave-active {

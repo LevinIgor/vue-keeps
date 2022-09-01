@@ -1,13 +1,15 @@
 <template>
   <div class="keeps">
-    <div class="keep" v-for="(keep, index) in keeps">
-      <div class="keep__time__ago">{{ getAgo(keep.id) }}</div>
-      <div class="keep__title">{{ keep.title }}</div>
-      <p class="keep__content">
-        {{ keep.content }}
-      </p>
-      <editIcon class="keep__edit" @click="edit(index)" />
-    </div>
+    <TransitionGroup name="inOut">
+      <div class="keep" v-for="(keep, index) in keeps" :key="keep.id">
+        <div class="keep__time__ago">{{ getAgo(keep.id) }}</div>
+        <div class="keep__title">{{ keep.title }}</div>
+        <p class="keep__content">
+          {{ keep.content }}
+        </p>
+        <editIcon class="keep__edit" @click="edit(index)" />
+      </div>
+    </TransitionGroup>
   </div>
 </template>
 <script setup>
@@ -36,7 +38,7 @@ function edit(id) {
   background-color: white;
   padding: 20px;
   border: 1px solid #e6e6e6;
-  transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-inOut;
 }
 .keep__time__ago {
   user-select: none;
@@ -61,7 +63,7 @@ function edit(id) {
   top: 0;
   right: 0;
   padding: 10px;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-inOut;
   cursor: pointer;
 }
 .keep:hover {
@@ -83,5 +85,21 @@ function edit(id) {
   .keeps {
     grid-template-columns: 1fr;
   }
+}
+
+.inOut-move, /* apply transition to moving elements */
+.inOut-enter-active,
+.inOut-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0, 0, 1);
+}
+.inOut-enter-from,
+.inOut-leave-to {
+  opacity: 0;
+  transform: scale(0.1);
+}
+
+.inOut-leave-active {
+  position: absolute;
+  min-width: max-content;
 }
 </style>
