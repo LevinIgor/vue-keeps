@@ -32,7 +32,7 @@
 import { ref } from "vue";
 import setKeep from "@/firebase/setKeep.js";
 
-const maxlength = 1000;
+const maxlength = 500;
 
 const emits = defineEmits(["onCreateKeep"]);
 const isTitleShow = ref(false);
