@@ -5,7 +5,7 @@ export default function () {
   return new Promise(async (resolve) => {
     let keeps = [];
 
-    const q = query(collection(db, "keeps"), limit(100),orderBy("id", "desc"));
+    const q = query(collection(db, "keeps"), limit(200),orderBy("id", "desc"));
 
     const querySnapshot = await getDocs(q);
 
