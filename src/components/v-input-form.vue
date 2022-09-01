@@ -15,11 +15,11 @@
     <textarea
       rows="4"
       class="form__content"
-      placeholder="Take a note..."
+      placeholder="Shift+Enter for go to next line"
       v-model.trim="form.content"
       :class="{ empty: isIncorrect.content }"
       @click="isIncorrect.content = false"
-      @keyup.enter="create()"
+      @keyup="keyup($event)"
     ></textarea>
     <span @click="create()" class="form__btn" title="Create" />
   </div>
@@ -62,6 +62,14 @@ function isValidate() {
 }
 function showTitle() {
   isTitleShow.value = true;
+}
+
+function keyup(event) {
+  if (event.keyCode === 13 && event.shiftKey) {
+    form.value.content = form.value.content + "\r\n\r\n";
+  } else if (event.keyCode === 13) {
+    create();
+  }
 }
 </script>
 <style scoped>
