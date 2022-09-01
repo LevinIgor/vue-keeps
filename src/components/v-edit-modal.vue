@@ -11,6 +11,7 @@
       class="content"
       placeholder="Take a note..."
       v-model.trim="keep.content"
+      maxlength="500"
     />
     <footer>
       <deleteIcon class="delete" @click="emits('delete', keep.id)" />

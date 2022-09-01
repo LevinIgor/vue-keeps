@@ -12,16 +12,19 @@
         @keyup.enter="create()"
       />
     </transition>
-    <textarea
-      rows="4"
-      class="form__content"
-      placeholder="Shift+Enter to create new note"
-      v-model.trim="form.content"
-      :class="{ empty: isIncorrect.content }"
-      @click="isIncorrect.content = false"
-      @keyup="keyup($event)"
-      maxlength="1000"
-    ></textarea>
+    <section>
+      <textarea
+        rows="4"
+        class="form__content"
+        placeholder="Shift + Enter to create"
+        v-model.trim="form.content"
+        :class="{ empty: isIncorrect.content }"
+        @click="isIncorrect.content = false"
+        @keyup="keyup($event)"
+        :maxlength="maxlength"
+      />
+      <span class="counter">{{ symbolCounter() }}/{{ maxlength }}</span>
+    </section>
     <span @click="create()" class="form__btn" title="Create" />
   </div>
 </template>
@@ -29,10 +32,15 @@
 import { ref } from "vue";
 import setKeep from "@/firebase/setKeep.js";
 
+const maxlength = 1000;
+
 const emits = defineEmits(["onCreateKeep"]);
 const isTitleShow = ref(false);
 const isIncorrect = ref({ title: false, content: false });
-const form = ref({});
+const form = ref({
+  title: "",
+  content: "",
+});
 
 async function create() {
   if (isValidate()) {
@@ -70,6 +78,9 @@ function keyup(event) {
     create();
   }
 }
+function symbolCounter() {
+  return form.value.content.length;
+}
 </script>
 <style scoped>
 .forms {
@@ -85,8 +96,17 @@ function keyup(event) {
 }
 input,
 textarea {
+  box-sizing: border-box;
   border: 2px solid transparent;
   margin-top: 1px;
+  width: 100%;
+}
+.counter {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  color: rgba(0, 0, 0, 0.63);
+  font-size: 12px;
 }
 .empty {
   border: 2px solid rgba(255, 63, 63, 0.219);

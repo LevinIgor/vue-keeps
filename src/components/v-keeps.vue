@@ -31,7 +31,9 @@ function edit(id) {
   margin-top: 100px;
   display: grid;
   grid-template-columns: repeat(3, minmax(250px, 1fr));
+  grid-template-rows: repeat(minmax(250px, 500px));
   grid-gap: 20px;
+  align-items: start;
 }
 .keep {
   cursor: default;
@@ -54,6 +56,7 @@ function edit(id) {
   font-size: 14px;
   margin-top: 10px;
   white-space: pre-wrap;
+  word-wrap: break-word;
 }
 .keep__edit {
   box-sizing: content-box;
