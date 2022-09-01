@@ -23,16 +23,21 @@
         @keyup="keyup($event)"
         :maxlength="maxlength"
       />
+      <span class="doc__counter"
+        >{{ docCount }} notes has already been created</span
+      >
       <span class="counter">{{ symbolCounter() }}/{{ maxlength }}</span>
     </section>
     <span @click="create()" class="form__btn" title="Create" />
   </div>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import setKeep from "@/firebase/setKeep.js";
+import getDocCount from "@/firebase/getDocCount.js";
 
 const maxlength = 500;
+const docCount = ref("-");
 
 const emits = defineEmits(["onCreateKeep"]);
 const isTitleShow = ref(false);
@@ -47,10 +52,13 @@ async function create() {
     form.value.id = Date.now();
 
     setKeep(form.value);
-
+    docCount.value++;
     emits("onCreateKeep", form.value);
 
-    form.value = {};
+    form.value = {
+      title: "",
+      content: "",
+    };
   }
 }
 
@@ -81,6 +89,12 @@ function keyup(event) {
 function symbolCounter() {
   return form.value.content.length;
 }
+
+onMounted(() => {
+  getDocCount().then((count) => {
+    docCount.value = count;
+  });
+});
 </script>
 <style scoped>
 .forms {
@@ -101,7 +115,16 @@ textarea {
   margin-top: 1px;
   width: 100%;
 }
+.doc__counter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 12px;
+  color: #999;
+  user-select: none;
+}
 .counter {
+  user-select: none;
   position: absolute;
   bottom: 0;
   right: 0;
