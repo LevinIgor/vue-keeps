@@ -51,6 +51,7 @@ function edit(id) {
 .keep__content {
   font-size: 14px;
   margin-top: 10px;
+  white-space: pre-wrap;
 }
 .keep__edit {
   box-sizing: content-box;

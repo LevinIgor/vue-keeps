@@ -7,9 +7,9 @@
   font-weight: normal;
 }
 
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
   display: none;
-}
+} */
 
 body {
   min-height: 100vh;

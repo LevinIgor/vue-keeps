@@ -15,7 +15,7 @@
       rows="4"
       class="form__content"
       placeholder="Take a note..."
-      v-model="form.content"
+      v-model.trim="form.content"
       :class="{ empty: isIncorrect.content }"
       @click="isIncorrect.content = false"
     ></textarea>

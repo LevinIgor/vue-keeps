@@ -1,14 +1,18 @@
 @import "./base.css";
 
-input,textarea{
-    outline: none;
-    border: none;
-    padding: 10px 5px;
-    font-size: 15px;
-    resize: none;
+input,
+textarea {
+  outline: none;
+  border: none;
+  padding: 10px 5px;
+  font-size: 15px;
+  resize: none;
 }
-#app{
-    max-width: 1200px;
-    margin: 0 auto;
+#app {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}

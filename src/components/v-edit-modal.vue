@@ -1,17 +1,24 @@
 <template>
   <div class="modal">
-    <input type="text" class="title" placeholder="Title" v-model="keep.title" />
+    <input
+      type="text"
+      class="title"
+      placeholder="Title"
+      v-model.trim="keep.title"
+    />
     <textarea
-      rows="3"
+      ref="textarea"
       class="content"
       placeholder="Take a note..."
-      v-model="keep.content"
+      v-model.trim="keep.content"
     />
     <footer>
       <deleteIcon class="delete" @click="emits('delete', keep.id)" />
       <section>
-        <span class="btn" @click="">Cancel</span>
-        <span class="btn" @click="save()">Done</span>
+        <span class="btn btn__delete" @click="emits('close')">Cancel</span>
+        <span class="btn" @click="save()" :class="{ block: !isValid() }"
+          >Done</span
+        >
       </section>
     </footer>
   </div>
@@ -22,21 +29,34 @@ import deleteIcon from "./icons/delete.vue";
 
 const props = defineProps(["modal"]);
 const emits = defineEmits(["close", "save", "delete"]);
+const textarea = ref(null);
 function blockWheel(e) {
   e.preventDefault();
 }
-const keep = ref({
-  title: "",
-  content: "",
-  id: "",
-});
+const keep = ref({});
 
 keep.value = JSON.parse(JSON.stringify(props.modal.keep));
 
 function save() {
-  emits("save", keep.value);
+  if (isValid()) {
+    console.log("save");
+    emits("save", keep.value);
+  }
+}
+
+function isValid() {
+  return keep.value.title?.length > 0 && keep.value.content?.length > 0;
 }
 onMounted(() => {
+  const tx = textarea.value;
+
+  tx.setAttribute("style", "height:" + tx.scrollHeight + "px;");
+  tx.addEventListener("input", OnInput, false);
+
+  function OnInput() {
+    this.style.height = 0;
+    this.style.height = this.scrollHeight + "px";
+  }
   window.addEventListener("wheel", blockWheel, { passive: false });
 });
 onUnmounted(() => {
@@ -71,6 +91,16 @@ footer {
   justify-content: space-between;
   align-items: flex-end;
 }
+textarea {
+  resize: vertical;
+  min-height: 50px;
+  max-height: 400px;
+  width: 100%;
+
+  overflow-x: none;
+  overflow-y: scroll;
+}
+
 .delete {
   cursor: pointer;
   fill: #7b7b7b;
@@ -80,16 +110,32 @@ footer {
   fill: #000;
 }
 .btn {
+  user-select: none;
   cursor: pointer;
   font-size: 13px;
-  background-color: #dbdbdb;
+  background-color: #4242421f;
+  color: rgba(48, 26, 26, 0.61);
+  font-weight: bold;
   border-radius: 5px;
-  padding: 5px 10px;
+  padding: 10px 15px;
   margin-top: 10px;
   transition: background-color 0.3s ease;
+  margin: 0 5px;
 }
 .btn:hover {
-  background-color: #e6e6e6;
+  background-color: #000000b3;
+  color: white;
+}
+.btn__delete {
+  background-color: #ff6d6d00;
+  color: rgba(255, 0, 0, 0.575);
+}
+.btn__delete:hover {
+  background-color: #ff6d6d;
+  color: white;
+}
+.block {
+  pointer-events: none;
 }
 
 @media (max-width: 600px) {

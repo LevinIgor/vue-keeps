@@ -8,6 +8,7 @@
       <VEditModal
         v-if="modal.isOpen"
         @delete="deleteKeep($event)"
+        @close="modal.isOpen = false"
         @save="saveKeep($event)"
         :modal="modal"
       />
@@ -67,6 +68,7 @@ main {
   flex-direction: column;
   align-items: center;
 }
+
 
 .nested-enter-active,
 .nested-leave-active {
