@@ -20,6 +20,7 @@
       :class="{ empty: isIncorrect.content }"
       @click="isIncorrect.content = false"
       @keyup="keyup($event)"
+      maxlength="1000"
     ></textarea>
     <span @click="create()" class="form__btn" title="Create" />
   </div>
