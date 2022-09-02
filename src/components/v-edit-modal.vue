@@ -5,6 +5,7 @@
       class="title"
       placeholder="Title"
       v-model.trim="keep.title"
+      maxlength="100"
     />
     <textarea
       ref="textarea"

@@ -10,6 +10,7 @@
         :class="{ empty: isIncorrect.title }"
         @click="isIncorrect.title = false"
         @keyup.enter="create()"
+        maxlength="100"
       />
     </transition>
     <section>
